@@ -1,0 +1,5 @@
+alert('Кто разработал язык программирования JavaScript? \n Бренданом Айком (Brandan Eich)')
+alert('За сколько дней был разработан JavaScript? \n 10 дней')
+alert('В каком году появился JavaScript? \n 1995')
+alert('JavaScript - это то же самое, что и Java? \n JavaScript - это не Java')
+alert('Как называется спецификация JavaScript? \n ECMAScript')
