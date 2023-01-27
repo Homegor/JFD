@@ -9,3 +9,4 @@ alert(userName.trim().toLowerCase()) // Выводим результат уби
 const userAge = Number(prompt('Сколько вам лет?'));
 
 alert(`${userAge + 1}`.trim()) // Преобразовано к типу данных number
+    //(Если добавить символ выдаст NaN, надо исправить)
