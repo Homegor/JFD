@@ -1,11 +1,13 @@
-const coffees = ['','Latte', 'Cappuccino', 'Americano']; // пустое значение нужно для Latte = index 1 иначе Latte = index 0
-let coffeesName = 'Americano'.trim()
+const coffees = ['Latte', 'Cappuccino', 'Americano'];
 
-const foundIndex = coffees.findIndex((item) => {
-    return item === coffeesName;
-});
+let coffeeName = 'CappucCino'
+    coffeeName = coffeeName.toLowerCase().trim()
 
-console.log(`Держите ваш любимый кофе ${coffeesName.slice(0,1).toUpperCase() + coffeesName.slice(1).toLowerCase()} . Он ${foundIndex}-й по популярности в нашей кофейне.`); // Название кофе должно быть регистронезависимым, т.е. если пользователь напечатает “lATte”, то должен показаться результат с кофе “Latte”.
+const peopleCoffeesIndex = coffees.findIndex((item) => item.toLowerCase() === coffeeName)
 
-
-// Если ввести напиток перепутав регистры, во всех случаях выдаст (-1)
+const choice = coffees[peopleCoffeesIndex]
+    if (choice){
+        console.log('Держите ваш любимый кофе ' + choice + '. Он ' + (peopleCoffeesIndex + 1) + '-й по популярности в нашей кофейне.')
+    }else {
+        console.log('К сожалению, такого вида кофе нет в наличии')
+    }
