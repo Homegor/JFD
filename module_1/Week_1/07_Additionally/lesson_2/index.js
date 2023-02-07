@@ -11,10 +11,10 @@ if (clientSpentForAllTime >= 100 && clientSpentForAllTime < 300){
     discount = 30
 }
 
-alert(`Вам предоставляется скидка в ${discount}%!`)
+console.log(`Вам предоставляется скидка в ${discount}%!`)
 
 clientSpentForAllTime = clientSpentForAllTime + clientSpentToday
 p = Math.floor((discount / 100)* clientSpentToday)
 clientSpentToday = clientSpentToday-p
 
-alert(`Спасибо, ${clientName}! К оплате ${clientSpentToday}$. За все время в нашем ресторане вы потратили ${clientSpentForAllTime}$.`)
+console.log(`Спасибо, ${clientName}! К оплате ${clientSpentToday}$. За все время в нашем ресторане вы потратили ${clientSpentForAllTime}$.`)
