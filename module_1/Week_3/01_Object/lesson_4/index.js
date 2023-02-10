@@ -5,7 +5,7 @@ const student = {
 }
 function giveJobToStudent(student, jobName){
     console.log('Поздравляем! У студента ' + student.fullName + ' появилась новая работа! Теперь он ' + jobName)
-    return {job: jobName, ...student}
+    return {...student, job: jobName}
 
 }
 const updatedStudent = giveJobToStudent(student, 'веб-разработчик');
