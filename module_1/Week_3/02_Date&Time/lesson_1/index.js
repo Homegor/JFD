@@ -1,8 +1,8 @@
-const zero = function (o){
-    if (o < 10){
-        return '0' + o
+const zero = function (num){
+    if (num < 10){
+        return '0' + num
     }else {
-        return o
+        return num
     }
 }
 function getDateFormat (separator = '-'){
