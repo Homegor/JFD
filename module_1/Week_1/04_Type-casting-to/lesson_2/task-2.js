@@ -1,7 +1,7 @@
 console.log(Number('10'), typeof Number('10')); // явное
 //1
 console.log(+'50'); // Неявное
-//lesson_2
+//2
 console.log(Number('100')); // явное
 //3
 console.log('' + 1); // Неявное
