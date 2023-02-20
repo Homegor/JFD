@@ -4,7 +4,7 @@ class Dictionary{
         this.words = {}
     }
     add(word, description){
-        if(!this.words[word]){
+        if(!this.words.hasOwnProperty(word)){
             this.words[word] = {word, description}
         }
     }
