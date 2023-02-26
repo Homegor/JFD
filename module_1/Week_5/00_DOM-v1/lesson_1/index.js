@@ -1,18 +1,18 @@
 // Через innerHTML
 
-const inner = document.body.innerHTML = "<form class=\"create-user-form\">\n" +
-    "<label>\n" +
-    "Имя\n" +
-    "<input type=\"text\" name=\"userName\" placeholder=\"Введите ваше имя\">\n" +
-    "</label>\n" +
-    "<label>\n" +
-    "Пароль\n" +
-    "<input type=\"password\" name=\"password\" placeholder=\"Придумайте Пароль\">\n" +
-    "</label>\n" +
-    "<button type=\"submit\">\n" +
-    "Подтвердить\n" +
-    "</button>\n" +
-    "</form>"
+const inner = document.body.innerHTML = `<form class="create-user-form">
+        <label>
+            Имя
+            <input type="text" name="userName" placeholder="Введите ваше имя">
+        </label>
+        <label>
+            Пароль
+            <input type="password" name="password" placeholder="Придумайте Пароль">
+        </label>
+        <button type="submit">
+            Подтвердить
+        </button>
+    </form>`
 
 console.log(inner)
 

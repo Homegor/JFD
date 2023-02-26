@@ -16,41 +16,36 @@ const tasks = [
     },
 ];
 
+function renderTasks(tasks) {
+    const tasksList = document.createElement("div");
+    tasksList.className = "tasks-list";
 
-const taskItem = document.createElement('div')
-        taskItem.className = 'task-item'
-        taskItem.dataset.taskId = `${tasks.id}`
-const taskItemMainContainer = document.createElement('div')
-        taskItemMainContainer.className = 'task-item__main-container'
-const taskItemMainContent = document.createElement('div')
-        taskItemMainContent.className = 'task-item__main-content'
-const checkboxForm = document.createElement('form')
-        checkboxForm.className = 'checkbox-form'
-const checkboxFormCheckbox = document.createElement('input')
-        checkboxFormCheckbox.className = 'checkbox-form__checkbox'
-        checkboxFormCheckbox.type = 'checkbox'
-        checkboxFormCheckbox.id = `${tasks.id}` // из массива
-const lab = document.createElement('lable')
-        lab.htmlFor = `${tasks.id}`  // из массива for="task-1"
-const taskItemText = document.createElement('span')
-        taskItemText.className = 'task-item__text'
-        taskItemText.textContent = `${tasks.text}`// из массива
-const tdd = document.createElement('button')
-        tdd.className = 'task-item__delete-button default-button delete-button'
-        tdd.dataset.deleteTaskId = '5'
-        tdd.textContent = 'Удалить'
+    document.body.insertAdjacentElement("afterbegin", tasksList);
 
-taskItem.append(taskItemMainContainer)
-taskItemMainContainer.append(taskItemMainContent, tdd)
-taskItemMainContent.append(checkboxForm, taskItemText)
-checkboxForm.append(checkboxFormCheckbox)
-checkboxFormCheckbox.append(lab)
+    for (const task of tasks) {
+        const $task = renderTasks2(task);
+        tasksList.innerHTML += $task;
+    }
+}
+function renderTasks2(task){
+    return `
+    <div class="task-item" data-task-id="${task.id}">
+        <div class="task-item__main-container">
+            <div class="task-item__main-content">
+                <form class="checkbox-form">
+                    <input class="checkbox-form__checkbox" type="checkbox" id="${task.id}">
+                    <label for="${task.id}"></label>
+                </form>
+                <span class="task-item__text">
+                    ${task.text}
+                </span>
+            </div>
+            <button class="task-item__delete-button default-button delete-button" data-delete-task-id="${task.id}">
+                Удалить
+            </button>
+        </div>
+    </div>
+    `
+}
 
-console.log(taskItemText)
-console.log(lab)
-console.log(taskItem)
-console.log(checkboxFormCheckbox)
-
-const body = document.querySelector('body')
-body.insertAdjacentElement('afterbegin', taskItem)
-// TODO: Не особо работает, все данные из массива undefined + lable не определяет атрибут for
+renderTasks(tasks);
