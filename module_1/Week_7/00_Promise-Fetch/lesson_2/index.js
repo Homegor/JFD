@@ -5,8 +5,8 @@ function createUserId(text){
     const aElement = document.createElement('a')
     aElement.href = '#'
     aElement.textContent = text
-    liElement.append(aElement)
 
+    liElement.append(aElement)
     return liElement
 }
 function getLoaderId(){
@@ -30,8 +30,8 @@ const getUsersByIds = (ides) => {
             return Promise.all(dataResult)
         })
         .then((dataId) => {
-            dataId.forEach((dataUser) => {
-                const dataHTML = createUserId(dataUser.user)
+            dataId.forEach((users) => {
+                const dataHTML = createUserId(users.username)
                 dataContainer.append(dataHTML)
             })
         })
