@@ -35,9 +35,9 @@ function getAllUsers(){
             }
             return response.json()
         })
-        .then((user) => {
-            user.forEach((userName) => {
-                const userHTML = createUser(userName.name)
+        .then((users) => {
+            users.forEach((user) => {
+                const userHTML = createUser(user.name)
                 dataContainer.append(userHTML)
             })
         })
