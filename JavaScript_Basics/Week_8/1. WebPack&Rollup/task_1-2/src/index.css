@@ -1,0 +1,14 @@
+body{
+    background-color: #DAD2CA;
+    margin: 0;
+    padding: 0;
+}
+h1{
+    color: #FF0000;
+    text-align: center;
+}
+.images__title{
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
