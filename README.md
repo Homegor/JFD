@@ -1,1 +1,1 @@
-# JFD - Junior FrontEnd Developer by https://result.school/
+# JFD - Junior FrontEnd Developer by result.school
