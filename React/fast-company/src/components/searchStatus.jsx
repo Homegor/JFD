@@ -1,12 +1,12 @@
 import React from "react";
-const SearchStatus = ({ length }) => {
-    if(length === 0){
+const SearchStatus = ({ usersCount }) => {
+    if(usersCount === 0){
         return <h2><span className={'badge bg-danger'}>{'Никто с тобой не тусанет'}</span></h2>
     }
-    if(length > 4 || length === 1){
-        return <h2><span className="badge bg-primary">{ length } {'человек тусанет с тобой сегодня'}</span></h2>
+    if(usersCount > 4 || usersCount === 1){
+        return <h2><span className="badge bg-primary">{ usersCount } {'человек тусанет с тобой сегодня'}</span></h2>
     } else {
-        return <h2><span className="badge bg-primary">{ length } {'человека тусанет с тобой сегодня'}</span></h2>
+        return <h2><span className="badge bg-primary">{ usersCount } {'человека тусанет с тобой сегодня'}</span></h2>
     }
 }
 

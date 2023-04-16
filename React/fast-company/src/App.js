@@ -22,7 +22,7 @@ function App() {
     }
     return (
         <>
-            <SearchStatus length={users.length}/>
+            <SearchStatus usersCount={users.length}/>
             <table className="table">
                 <thead>
                 <tr>
