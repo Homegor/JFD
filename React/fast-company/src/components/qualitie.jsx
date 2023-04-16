@@ -1,8 +1,8 @@
 import React from "react";
-const Qualities = ({ color, name, _id }) => {
+const Qualitie = ({ color, name, _id }) => {
     return (
         <span className={`badge m-2 bg-${color}`}>{name}</span>
     )
 }
 
-export default Qualities
+export default Qualitie

@@ -10,15 +10,13 @@ function App() {
         setUsers(users.filter(user => user._id !== userId))
     }
     const handleToggleBookMark = (userId) => {
-        setUsers(
-            users.map((item) => {
-                if (item._id === userId) {
-                    const mark = !item.bookmark;
-                    return { ...item, bookmark: mark };
-                }
-                return { ...item };
-            })
-        );
+        setUsers(prevState => { return prevState.map((user) => {
+            if (user._id === userId) {
+                const mark = !user.bookmark;
+                return { ...user, bookmark: !user.bookmark };
+            }
+            return {...user};
+        })})
     }
     return (
         <>
