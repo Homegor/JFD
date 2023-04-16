@@ -9,7 +9,17 @@ function App() {
     const handleDelete = (userId) => {
         setUsers(users.filter(user => user._id !== userId))
     }
-    console.log(users)
+    const handleToggleBookMark = (userId) => {
+        setUsers(
+            users.map((item) => {
+                if (item._id === userId) {
+                    const mark = !item.bookmark;
+                    return { ...item, bookmark: mark };
+                }
+                return { ...item };
+            })
+        );
+    }
     return (
         <>
             <SearchStatus length={users.length}/>
@@ -22,10 +32,11 @@ function App() {
                     <th scope="col">Встретился, раз</th>
                     <th scope="col">Избранное</th>
                     <th scope="col">Оценка</th>
+
                 </tr>
                 </thead>
                 <tbody>
-                <Users users={users} onDelete={handleDelete} />
+                <Users users={users} onDelete = {handleDelete} onBookMark = {handleToggleBookMark}/>
                 </tbody>
             </table>
         </>

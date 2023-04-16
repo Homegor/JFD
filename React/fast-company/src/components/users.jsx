@@ -2,16 +2,13 @@ import React from "react";
 import User from "./user";
 
 
-const Users = ({ users, ...rest }) => {
-    console.log(Users)
+const Users = ({ users, onDelete, onBookMark}) => {
     return (
         <>
-            <>
-                {users.map((item) => (
-                        <User key={item._id} user={item} />
-                    )
-                )}
-            </>
+            {users.map((item) => (
+                    <User {...item} key={item._id} user={item} onDelete={onDelete} onBookMark={onBookMark}/>
+                )
+            )}
         </>
     )
 }
