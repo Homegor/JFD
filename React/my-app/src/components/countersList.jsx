@@ -16,23 +16,23 @@ const CountersList = () => {
         setCounters(newCounters)
     }
     const handleIncrement = (id) => {
-        setCounters(counters.map((item) => {
+        setCounters(prevState => {return prevState.map((item) => {
             if(item.id === id){
                 return {...item, value: item.value + 1}
             } else {
-                return {...item}
+                return item
             }
-        }))
+        })})
     }
     const handleDecrement = (id) => {
-        setCounters(counters.map((item) => {
-            if(item.id === id){
+        setCounters(prevState => {return prevState.map((item) => {
+            if(item.id === id && item.value >= 1){
                 return {...item, value: item.value - 1}
             } else {
-                return {...item}
+                return item
             }
-        }))
-    }
+        })})
+        }
     const handelReset = () => {
         setCounters(initialState)
         console.log('handelReset')
