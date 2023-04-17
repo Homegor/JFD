@@ -26,11 +26,11 @@ const CountersList = () => {
     }
     const handleDecrement = (id) => {
         setCounters(prevState => {return prevState.map((item) => {
-            if(item.id === id && item.value >= 1){
+                if(item.id === id && item.value >= 1){
                 return {...item, value: item.value - 1}
-            } else {
-                return item
-            }
+                } else {
+                    return item
+              }
         })})
         }
     const handelReset = () => {
