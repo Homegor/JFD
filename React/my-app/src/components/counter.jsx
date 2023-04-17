@@ -9,15 +9,6 @@ const Counter = props => {
         classes += value === 0 ? 'bg-warning' : 'bg-primary'
         return classes
     }
-    const handleIncrement = () => {
-        console.log('handleIncrement')
-        //setValue((prevState) => prevState + 1)
-    }
-    const handleDecrement = () => {
-        console.log('handleDecrement')
-        //setValue((prevState) => prevState - 1)
-    }
-
     return (
         <div>
             <span>{props.name}</span>
