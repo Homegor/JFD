@@ -1,14 +1,12 @@
-import React from "react";
-import User from "./user";
+import React from 'react'
+import User from './user'
 
-
-const Users = ({ users, onDelete, onBookMark}) => {
+const Users = ({ users, onDelete, onBookMark }) => {
     return (
         <>
-            {users.map((item) => (
-                    <User {...item} key={item._id} onDelete={onDelete} onBookMark={onBookMark}/>
-                )
-            )}
+            {users.map(item => (
+                <User {...item} key={item._id} onDelete={onDelete} onBookMark={onBookMark} />
+            ))}
         </>
     )
 }
