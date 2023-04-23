@@ -15,7 +15,7 @@ const Users = ({ onDelete, onBookMark, userCrop }) => {
 Users.propTypes = {
     onDelete: PropTypes.func.isRequired,
     onBookMark: PropTypes.func.isRequired,
-    userCrop: PropTypes.number.isRequired
+    userCrop: PropTypes.array.isRequired
 }
 
 export default Users

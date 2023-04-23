@@ -7,7 +7,7 @@ const BookMark = ({ _id, status, onBookMark }) => {
 
 BookMark.propTypes = {
     _id: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
+    status: PropTypes.bool.isRequired,
     onBookMark: PropTypes.func.isRequired
 }
 
