@@ -3,17 +3,26 @@ import api from './api'
 
 import Users from './components/users'
 import SearchStatus from './components/searchStatus'
+import Pagination from './components/pagination'
+import { paginate } from './utils/paginate'
 
 function App() {
     const [users, setUsers] = useState(api.users.fetchAll())
-    const handleDelete = (userId) => {
-        setUsers(users.filter((user) => user._id !== userId))
+    const count = users.length
+    const pageSize = 4
+    const [currentPage, setCurrentPage] = useState(1)
+    const handlePageChange = pageIndex => {
+        setCurrentPage(pageIndex)
     }
-    const handleToggleBookMark = (userId) => {
-        setUsers((prevState) => {
-            return prevState.map((user) => {
+
+    const userCrop = paginate(users, currentPage, pageSize)
+    const handleDelete = userId => {
+        setUsers(users.filter(user => user._id !== userId))
+    }
+    const handleToggleBookMark = userId => {
+        setUsers(prevState => {
+            return prevState.map(user => {
                 if (user._id === userId) {
-                    const mark = !user.bookmark
                     return { ...user, bookmark: !user.bookmark }
                 }
                 return user
@@ -22,7 +31,7 @@ function App() {
     }
     return (
         <>
-            <SearchStatus usersCount={users.length} />
+            <SearchStatus usersCount={count} />
             <table className='table'>
                 <thead>
                     <tr>
@@ -35,9 +44,20 @@ function App() {
                     </tr>
                 </thead>
                 <tbody>
-                    <Users users={users} onDelete={handleDelete} onBookMark={handleToggleBookMark} />
+                    <Users
+                        userCrop={userCrop}
+                        users={users}
+                        onDelete={handleDelete}
+                        onBookMark={handleToggleBookMark}
+                    />
                 </tbody>
             </table>
+            <Pagination
+                itemsCount={count}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+            />
         </>
     )
 }
