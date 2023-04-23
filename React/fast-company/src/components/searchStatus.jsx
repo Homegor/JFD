@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 const SearchStatus = ({ usersCount }) => {
     if (usersCount === 0) {
         return (
@@ -24,6 +25,10 @@ const SearchStatus = ({ usersCount }) => {
             </h2>
         )
     }
+}
+
+SearchStatus.protoTypes = {
+    usersCount: PropTypes.func.isRequired
 }
 
 export default SearchStatus
