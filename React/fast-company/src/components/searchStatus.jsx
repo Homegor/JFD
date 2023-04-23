@@ -27,7 +27,7 @@ const SearchStatus = ({ usersCount }) => {
     }
 }
 
-SearchStatus.protoTypes = {
+SearchStatus.propTypes = {
     usersCount: PropTypes.func.isRequired
 }
 

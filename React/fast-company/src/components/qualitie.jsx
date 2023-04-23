@@ -4,7 +4,7 @@ const Qualitie = ({ color, name, _id }) => {
     return <span className={`badge m-2 bg-${color}`}>{name}</span>
 }
 
-Qualitie.protoTypes = {
+Qualitie.propTypes = {
     color: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     _id: PropTypes.number.isRequired

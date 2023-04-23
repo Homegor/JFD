@@ -12,7 +12,7 @@ const Users = ({ onDelete, onBookMark, userCrop }) => {
     )
 }
 
-Users.protoTypes = {
+Users.propTypes = {
     onDelete: PropTypes.func.isRequired,
     onBookMark: PropTypes.func.isRequired,
     userCrop: PropTypes.func.isRequired

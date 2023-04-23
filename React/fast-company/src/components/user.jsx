@@ -33,7 +33,7 @@ const User = ({ _id, name, profession, qualities, completedMeetings, rate, bookm
     )
 }
 
-User.protoTypes = {
+User.propTypes = {
     _id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     profession: PropTypes.object.isRequired,
