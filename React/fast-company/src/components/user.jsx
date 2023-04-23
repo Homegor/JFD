@@ -34,10 +34,10 @@ const User = ({ _id, name, profession, qualities, completedMeetings, rate, bookm
 }
 
 User.propTypes = {
-    _id: PropTypes.number.isRequired,
+    _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     profession: PropTypes.object.isRequired,
-    qualities: PropTypes.object.isRequired,
+    qualities: PropTypes.array.isRequired,
     completedMeetings: PropTypes.number.isRequired,
     rate: PropTypes.number.isRequired,
     bookmark: PropTypes.bool.isRequired,

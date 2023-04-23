@@ -28,7 +28,7 @@ const SearchStatus = ({ usersCount }) => {
 }
 
 SearchStatus.propTypes = {
-    usersCount: PropTypes.func.isRequired
+    usersCount: PropTypes.number.isRequired
 }
 
 export default SearchStatus
