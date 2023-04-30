@@ -10,12 +10,16 @@ import GroupList from './components/groupList'
 function App() {
     const [currentPage, setCurrentPage] = useState(1)
     const [users, setUsers] = useState(api.users.fetchAll())
-    const [professions, setProfession] = useState()
+    const [professions, setProfession] = useState(api.professions.fetchAll())
     const [selectedProf, setSelectedProf] = useState()
 
     const pageSize = 4
+
     useEffect(() => {
-        api.professions.fetchAll().then(data => setProfession(data))
+        api.professions.fetchAll().then(prof => setProfession(prof))
+    }, [])
+    useEffect(() => {
+        api.users.fetchAll().then(data => setProfession(data))
     }, [])
     useEffect(() => {
         setCurrentPage(1)
@@ -27,6 +31,7 @@ function App() {
     const handlePageChange = pageIndex => {
         setCurrentPage(pageIndex)
     }
+
     const filteredUsers = selectedProf ? users.filter(user => user.profession === selectedProf) : users
     const count = filteredUsers.length
     const userCrop = paginate(filteredUsers, currentPage, pageSize)
