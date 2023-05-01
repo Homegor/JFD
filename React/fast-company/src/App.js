@@ -19,7 +19,7 @@ function App() {
         api.professions.fetchAll().then(prof => setProfession(prof))
     }, [])
     useEffect(() => {
-        api.users.fetchAll().then(data => setProfession(data))
+        api.users.fetchAll().then(data => setUsers(data))
     }, [])
     useEffect(() => {
         setCurrentPage(1)
