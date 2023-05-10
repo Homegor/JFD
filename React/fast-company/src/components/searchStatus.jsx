@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 const SearchStatus = ({ usersCount }) => {
-    console.log('usersCount', usersCount)
     if (usersCount === 0) {
         return (
             <h2>
