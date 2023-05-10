@@ -5,14 +5,14 @@ const GroupList = ({ items, valueProperty, contentProperty, onItemSelect, select
     const itemsArr = Array.isArray(items) ? items : Object.values(items)
     return (
         <ul className='list-group'>
-            {Object.keys(itemsArr).map(item => (
+            {itemsArr.map(item => (
                 <li
-                    key={itemsArr[item][valueProperty]}
-                    className={'list-group-item' + (itemsArr[item] === selectedItem ? ' active' : '')}
-                    onClick={() => onItemSelect(itemsArr[item])}
+                    key={item[valueProperty]}
+                    className={'list-group-item' + (item === selectedItem ? ' active' : '')}
+                    onClick={() => onItemSelect(item)}
                     role='button'
                 >
-                    {itemsArr[item][contentProperty]}
+                    {item[contentProperty]}
                 </li>
             ))}
         </ul>
