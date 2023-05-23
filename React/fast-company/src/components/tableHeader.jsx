@@ -16,7 +16,6 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
     const addSortStatus = () => {
         return selectedSort.order === 'desc' ? 'bi bi-caret-up-fill' : 'bi bi-caret-down-fill'
     }
-    console.log(addSortStatus)
     return (
         <thead>
             <tr>
