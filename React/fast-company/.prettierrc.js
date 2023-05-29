@@ -1,11 +1,11 @@
 module.exports = {
-    printWidth: 120,
-    tabWidth: 4,
-    useTabs: false,
-    semi: false,
-    arrowParens: 'avoid',
-    bracketSpacing: true,
-    singleQuote: true,
-    jsxSingleQuote: true,
-    trailingComma: 'none'
+    printWidth: 120, // Длина строки, в которой Prettier попытается выполнить перенос.
+    tabWidth: 4, // Количество пробелов на уровень отступа
+    useTabs: false, // Отступы с помощью табуляции вместо пробелов.
+    semi: false, // Печатать точки с запятой.
+    arrowParens: 'always', // Включите круглые скобки вокруг единственного параметра функции стрелки.
+    bracketSpacing: true, // Печатайте пробелы между скобками.
+    singleQuote: true, // Используйте одинарные кавычки вместо двойных кавычек.
+    jsxSingleQuote: true, // Используйте одинарные кавычки в JSX.
+    trailingComma: 'none' // Печатайте конечные запятые везде, где это возможно, когда текст многострочный.
 }

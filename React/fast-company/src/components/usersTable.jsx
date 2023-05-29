@@ -11,19 +11,19 @@ const UsersTable = ({ users, onSort, selectedSort, onBookMark, onDelete, ...rest
         name: {
             path: 'name',
             name: 'Имя',
-            component: user => <Link to={`/users/${user._id}`}>{user.name}</Link>
+            component: (user) => <Link to={`/users/${user._id}`}>{user.name}</Link>
         },
-        qualities: { name: 'Качества', component: user => <QualitiesList qualities={user.qualities} /> },
+        qualities: { name: 'Качества', component: (user) => <QualitiesList qualities={user.qualities} /> },
         professions: { path: 'profession.name', name: 'Профессия' },
         completedMeetings: { path: 'completedMeetings', name: 'Встретился, раз' },
         rate: { path: 'rate', name: 'Оценка' },
         bookmark: {
             path: 'bookmark',
             name: 'Избранное',
-            component: user => <BookMark status={user.bookmark} onBookMark={onBookMark} _id={user._id} />
+            component: (user) => <BookMark status={user.bookmark} onBookMark={onBookMark} _id={user._id} />
         },
         delete: {
-            component: user => (
+            component: (user) => (
                 <button
                     type='button'
                     className='btn btn-danger'

@@ -5,7 +5,7 @@ const GroupList = ({ items, valueProperty, contentProperty, onItemSelect, select
     const itemsArr = Array.isArray(items) ? items : Object.values(items)
     return (
         <ul className='list-group'>
-            {itemsArr.map(item => (
+            {itemsArr.map((item) => (
                 <li
                     key={item[valueProperty]}
                     className={'list-group-item' + (item === selectedItem ? ' active' : '')}
