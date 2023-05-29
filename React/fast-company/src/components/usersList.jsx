@@ -7,14 +7,14 @@ import GroupList from './groupList'
 import SearchStatus from './searchStatus'
 import UsersTable from './usersTable'
 import _ from 'lodash'
-import UserSearch from './userSearch'
 const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [professions, setProfession] = useState([])
     const [selectedProf, setSelectedProf] = useState()
     const [sortBy, setSortBy] = useState({ iter: 'name', order: 'asc' })
-
     const [users, setUsers] = useState([])
+    const [value, setValue] = useState({ search: '' })
+
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data))
     }, [])
@@ -32,7 +32,13 @@ const UsersList = () => {
         )
         console.log(id)
     }
-
+    const handelSearch = ({ target }) => {
+        setValue((prevState) => ({ ...prevState, [target.name]: target.value }))
+        if (!value.search) {
+            setSelectedProf()
+            setCurrentPage(1)
+        }
+    }
     const pageSize = 8
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfession(data))
@@ -43,6 +49,7 @@ const UsersList = () => {
 
     const handleProfessionSelect = (item) => {
         setSelectedProf(item)
+        value.search = ''
     }
 
     const handlePageChange = (pageIndex) => {
@@ -54,8 +61,11 @@ const UsersList = () => {
 
     if (users) {
         const filteredUsers = selectedProf ? users.filter((user) => user.profession._id === selectedProf._id) : users
-        const count = filteredUsers.length
-        const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order])
+        const filteredUsersName = filteredUsers.filter((user) => {
+            return user.name.toLowerCase().includes(value.search.toLowerCase())
+        })
+        const count = filteredUsersName.length
+        const sortedUsers = _.orderBy(filteredUsersName, [sortBy.path], [sortBy.order])
         const usersCrop = paginate(sortedUsers, currentPage, pageSize)
 
         const clearFilter = () => {
@@ -85,7 +95,16 @@ const UsersList = () => {
                 )}
                 <div className='d-flex flex-column'>
                     <SearchStatus usersCount={count} />
-                    <UserSearch users={users} />
+                    <form action=''>
+                        <label htmlFor='search'></label>
+                        <input
+                            name='search'
+                            value={value.search}
+                            placeholder='Поиск'
+                            className='w-100 mx-auto'
+                            onChange={handelSearch}
+                        />
+                    </form>
                     {count > 0 && (
                         <UsersTable
                             users={usersCrop}

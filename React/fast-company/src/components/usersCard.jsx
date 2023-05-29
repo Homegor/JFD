@@ -5,15 +5,12 @@ import { useHistory } from 'react-router-dom'
 import QualitiesList from './qualitiesList'
 
 const UserPageCard = ({ userId }) => {
-    console.log('userId', userId)
     const [user, setUser] = useState()
     const history = useHistory()
 
     useEffect(() => {
         api.users.getById(userId).then((user) => setUser(user))
     }, [])
-
-    console.log('user', user)
 
     if (!user) return <h1>Loader...</h1>
 
