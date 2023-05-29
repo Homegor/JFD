@@ -10,7 +10,7 @@ const UserPageCard = ({ userId }) => {
     const history = useHistory()
 
     useEffect(() => {
-        api.users.getById(userId).then(user => setUser(user))
+        api.users.getById(userId).then((user) => setUser(user))
     }, [])
 
     console.log('user', user)

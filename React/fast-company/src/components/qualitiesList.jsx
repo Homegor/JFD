@@ -5,7 +5,7 @@ import Qualitie from './qualitie'
 const QualitiesList = ({ qualities }) => {
     return (
         <>
-            {qualities.map(item => (
+            {qualities.map((item) => (
                 <Qualitie key={item.name} color={item.color} name={item.name} _id={item._id} />
             ))}
         </>
