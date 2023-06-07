@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { validator } from '../../utils/validator'
 import TextField from '../common/form/textField'
+import CheckBoxField from '../common/form/checkBoxField'
 
 const LoginForm = () => {
-  const [data, setData] = useState({ email: '', password: '' })
+  const [data, setData] = useState({ email: '', password: '', stayOn: false })
   const [errors, setErrors] = useState({})
-  const handelChange = ({ target }) => {
+  const handleChange = (target) => {
     setData((prevState) => ({ ...prevState, [target.name]: target.value }))
   }
   const validatorConfig = {
@@ -38,19 +39,19 @@ const LoginForm = () => {
     return Object.keys(errors).length === 0
   }
   const isValid = Object.keys(errors).length === 0
-  const handelSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     const isValid = validate()
     if (!isValid) return
     console.log(data)
   }
   return (
-    <form onSubmit={handelSubmit}>
+    <form onSubmit={handleSubmit}>
       <TextField
         label={'Электронная почта'}
         name={'email'}
         value={data.email}
-        onChange={handelChange}
+        onChange={handleChange}
         error={errors.email}
       />
       <TextField
@@ -58,9 +59,16 @@ const LoginForm = () => {
         type={'password'}
         name={'password'}
         value={data.password}
-        onChange={handelChange}
+        onChange={handleChange}
         error={errors.password}
       />
+      <CheckBoxField
+        value={data.stayOn}
+        onChange={handleChange}
+        name={'stayOn'}
+      >
+        Оставаться в системе
+      </CheckBoxField>
       <button
         type={'submit'}
         disabled={!isValid}

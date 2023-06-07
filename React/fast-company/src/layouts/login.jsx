@@ -15,12 +15,12 @@ const Login = () => {
     <div className={'container mt-5'}>
       <div className={'row'}>
         <div className={'col-md-6 offset-md-3 shadow p-4'}>
-          <h3 className={'mb-4'}>login</h3>
           {formType === 'register' ? (
             <>
-              <RegisterForm />{' '}
+              <h3 className={'mb-4'}>Register</h3>
+              <RegisterForm />
               <p>
-                Already have account?{' '}
+                Already have account?
                 <a role={'button'} onClick={toggleFormTyp}>
                   Sign In
                 </a>
@@ -28,10 +28,13 @@ const Login = () => {
             </>
           ) : (
             <>
-              {' '}
-              <LoginForm />{' '}
+              <h3 className={'mb-4'}>login</h3>
+              <LoginForm />
               <p>
-                Dont have account? <a> Sign Up</a>
+                Dont have account?
+                <a role={'button'} onClick={toggleFormTyp}>
+                  Sign Up
+                </a>
               </p>
             </>
           )}

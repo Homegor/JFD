@@ -1,7 +1,148 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { validator } from '../../utils/validator'
+import TextField from '../common/form/textField'
+import api from '../../api'
+import SelectField from '../common/form/selectField'
+import RadioField from '../common/form/radioField'
+import MultiSelectField from '../common/form/multiSelectField'
+import CheckBoxField from '../common/form/checkBoxField'
 
 const RegisterForm = () => {
-  return <h1>Register Form</h1>
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+    profession: '',
+    sex: '',
+    qualities: [],
+    licence: false
+  })
+  const [errors, setErrors] = useState({})
+  const [professions, setProfession] = useState([])
+  const [qualities, setQualities] = useState({})
+
+  useEffect(() => {
+    api.professions.fetchAll().then((data) => setProfession(data))
+    api.qualities.fetchAll().then((data) => setQualities(data))
+  }, [])
+
+  const handleChange = (target) => {
+    setData((prevState) => ({ ...prevState, [target.name]: target.value }))
+  }
+  const validatorConfig = {
+    email: {
+      isRequired: { message: 'Электронная почта обязательна' },
+      isEmail: {
+        message: 'Email введен некорректно'
+      }
+    },
+    password: {
+      isRequired: { message: 'Пароль обязателен' },
+      isCapitalSymbol: {
+        message: 'Пароль должен содержать хотя бы одну заглавную букву'
+      },
+      isContainDigit: {
+        message: 'Пароль должен содержать хотя бы одно число'
+      },
+      minSymbol: {
+        message: 'Пароль должен содержать не менее 8 символов',
+        value: 8
+      }
+    },
+    profession: {
+      isRequired: {
+        message: 'Обязательно выберете профессию'
+      }
+    },
+    sex: {
+      isRequired: {
+        message: 'Обязательно выберете свой пол'
+      }
+    },
+    licence: {
+      isRequired: {
+        message:
+          'Нажимая вы подтверждаете что ознакомились с лицензионным соглашением'
+      }
+    }
+  }
+  useEffect(() => {
+    validate()
+  }, [data])
+
+  const validate = () => {
+    const errors = validator(data, validatorConfig)
+    setErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+  const isValid = Object.keys(errors).length === 0
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const isValid = validate()
+    if (!isValid) return
+    console.log(data)
+  }
+  return (
+    <form onSubmit={handleSubmit}>
+      <TextField
+        label={'Электронная почта'}
+        name={'email'}
+        value={data.email}
+        onChange={handleChange}
+        error={errors.email}
+      />
+      <TextField
+        label={'Пароль'}
+        type={'password'}
+        name={'password'}
+        value={data.password}
+        onChange={handleChange}
+        error={errors.password}
+      />
+      <SelectField
+        label={'Выберите свою профессию'}
+        onChange={handleChange}
+        options={professions}
+        name={'profession'}
+        defaultOption={'Choose...'}
+        error={errors.profession}
+        value={data.profession}
+      />
+      <RadioField
+        options={[
+          { name: 'Male', value: 'male' },
+          { name: 'Female', value: 'female' },
+          { name: 'Other', value: 'other' }
+        ]}
+        value={data.sex}
+        name={'sex'}
+        label={'Выберете ваши пол'}
+        onChange={handleChange}
+        error={errors.sex}
+      />
+      <MultiSelectField
+        options={qualities}
+        onChange={handleChange}
+        defaultValue={data.qualities}
+        name={'qualities'}
+        label={'Выберете ваши качества'}
+      />
+      <CheckBoxField
+        value={data.licence}
+        onChange={handleChange}
+        name={'licence'}
+        error={errors.licence}
+      >
+        Подтвердить <a>лицензионное соглашение</a>
+      </CheckBoxField>
+      <button
+        type={'submit'}
+        disabled={!isValid}
+        className={'btn btn-primary w-100 mx-auto'}
+      >
+        submit
+      </button>
+    </form>
+  )
 }
 
 export default RegisterForm

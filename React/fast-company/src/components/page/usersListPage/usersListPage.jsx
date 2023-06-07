@@ -40,9 +40,11 @@ const UsersListPage = () => {
     }
   }
   const pageSize = 8
+
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfession(data))
   }, [])
+
   useEffect(() => {
     setCurrentPage(1)
   }, [selectedProf])
