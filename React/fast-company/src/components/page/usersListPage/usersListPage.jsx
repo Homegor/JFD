@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
+
 import { paginate } from '../../../utils/paginate'
 import Pagination from '../../common/pagination'
 import api from '../../../api'
 import GroupList from '../../common/groupList'
 import SearchStatus from '../../ui/searchStatus'
 import UsersTable from '../../ui/usersTable'
-import _ from 'lodash'
+
 const UsersListPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [professions, setProfession] = useState([])
