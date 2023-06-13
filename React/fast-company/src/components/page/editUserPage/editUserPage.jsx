@@ -96,6 +96,11 @@ const EditUserPage = () => {
       isRequired: {
         message: 'Обязательно выберете свой пол'
       }
+    },
+    qualities: {
+      minSymbol: {
+        message: 'Должно быть выбрано хотя бы одно качество'
+      }
     }
   }
 
@@ -106,65 +111,69 @@ const EditUserPage = () => {
   }
   const isValid = Object.keys(errors).length === 0
 
-  return (
-    <div className='container mt-5'>
-      <div className='row'>
-        <div className='col-md-6 offset-md-3 shadow p-4'>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              label={'Имя'}
-              onChange={handleChange}
-              value={data.name}
-              name={'name'}
-              error={errors.name}
-            />
-            <TextField
-              label={'Электронная почта'}
-              name={'email'}
-              value={data.email}
-              onChange={handleChange}
-              error={errors.email}
-            />
-            <SelectField
-              label={'Выберите свою профессию'}
-              onChange={handleChange}
-              options={professions}
-              name={'profession'}
-              defaultOption={'Choose...'}
-              error={errors.profession}
-              value={data.profession}
-            />
-            <RadioField
-              options={[
-                { name: 'Male', value: 'male' },
-                { name: 'Female', value: 'female' },
-                { name: 'Other', value: 'other' }
-              ]}
-              value={data.sex}
-              name={'sex'}
-              label={'Выберете ваши пол'}
-              onChange={handleChange}
-              error={errors.sex}
-            />
-            <MultiSelectField
-              options={qualities}
-              onChange={handleChange}
-              defaultValue={data.qualities}
-              name='qualities'
-              label='Выберите ваши качества'
-            />
-            <button
-              type={'submit'}
-              disabled={!isValid}
-              className={'btn btn-primary w-100 mx-auto'}
-            >
-              Обновить
-            </button>
-          </form>
+  if (Object.keys(professions).length > 0) {
+    return (
+      <div className='container mt-5'>
+        <div className='row'>
+          <div className='col-md-6 offset-md-3 shadow p-4'>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                label={'Имя'}
+                onChange={handleChange}
+                value={data.name}
+                name={'name'}
+                error={errors.name}
+              />
+              <TextField
+                label={'Электронная почта'}
+                name={'email'}
+                value={data.email}
+                onChange={handleChange}
+                error={errors.email}
+              />
+              <SelectField
+                label={'Выберите свою профессию'}
+                onChange={handleChange}
+                options={professions}
+                name={'profession'}
+                defaultOption={'Choose...'}
+                error={errors.profession}
+                value={data.profession}
+              />
+              <RadioField
+                options={[
+                  { name: 'Male', value: 'male' },
+                  { name: 'Female', value: 'female' },
+                  { name: 'Other', value: 'other' }
+                ]}
+                value={data.sex}
+                name={'sex'}
+                label={'Выберете ваши пол'}
+                onChange={handleChange}
+                error={errors.sex}
+              />
+              <MultiSelectField
+                options={qualities}
+                onChange={handleChange}
+                defaultValue={data.qualities}
+                name='qualities'
+                label='Выберите ваши качества'
+              />
+              <button
+                type={'submit'}
+                disabled={!isValid}
+                className={'btn btn-primary w-100 mx-auto'}
+              >
+                Обновить
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  } else {
+    return <h1>Loader...</h1>
+  }
 }
 
 export default EditUserPage
