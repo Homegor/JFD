@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
+
 import api from '../../../api'
-import { useHistory } from 'react-router-dom'
 import Qualities from '../../ui/qualities'
 const UserPageCard = ({ userId }) => {
+  console.log(userId)
   const [user, setUser] = useState()
   const history = useHistory()
 
@@ -14,7 +16,7 @@ const UserPageCard = ({ userId }) => {
   if (!user) return <h1>Loader...</h1>
 
   const handleButton = () => {
-    history.push('/')
+    history.push('/users')
   }
   return (
     <>
@@ -31,9 +33,21 @@ const UserPageCard = ({ userId }) => {
         Встретился <strong>{user.completedMeetings}</strong> раз
       </p>
       <p>
+        Пол <strong>{user.sex}</strong>
+      </p>
+      <p>
         Рейтинг: <strong>{user.rate}</strong>
       </p>
-      <button onClick={handleButton}>На главную</button>
+      <button className={'m-1 btn btn-primary'} onClick={handleButton}>
+        Все пользователи
+      </button>
+      <Link
+        className={'m-1 btn btn-danger'}
+        to={`/users/${userId}/edit`}
+        user={user}
+      >
+        Изменить пользователя
+      </Link>
     </>
   )
 }
