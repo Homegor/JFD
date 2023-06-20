@@ -31,7 +31,6 @@ const HOCExample = () => {
             <CardWrapper>
                 <SmallTitle>4. Composed HOC</SmallTitle>
                 <Divider />
-                fdsferwerrds
                 <NewComponent />
             </CardWrapper>
         </>
