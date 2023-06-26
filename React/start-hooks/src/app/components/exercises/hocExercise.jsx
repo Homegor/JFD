@@ -1,9 +1,46 @@
 import React from "react";
 import CollapseWrapper from "../common/collapse";
-import withFunctions from "./hocTask/withFunctions";
-import SimpleComponent from "./hocTask/simpleComponent";
+import PropTypes from "prop-types";
+import CardWrapper from "../common/Card";
 
 const HocExercise = () => {
+    const SimpleComponent = ({ onLogin, onLogOut, isAuth }) => {
+        return isAuth ? (
+            <button className={"btn btn-danger"} onClick={onLogOut}>
+                Выйти
+            </button>
+        ) : (
+            <button className={"btn btn-primary"} onClick={onLogin}>
+                Войти
+            </button>
+        );
+    };
+    SimpleComponent.propTypes = {
+        onLogin: PropTypes.func,
+        onLogOut: PropTypes.func,
+        isAuth: PropTypes.bool
+    };
+
+    const withFunctions = (Component) => (props) => {
+        const isAuth = !!localStorage.getItem("auth");
+        const handleLogin = () => {
+            localStorage.setItem("auth", "token");
+        };
+        const handleLoginOut = () => {
+            localStorage.removeItem("auth");
+        };
+        return (
+            <CardWrapper>
+                <Component
+                    {...props}
+                    isAuth={isAuth}
+                    onLogin={handleLogin}
+                    onLogOut={handleLoginOut}
+                />
+            </CardWrapper>
+        );
+    };
+
     const ComponentWithHoc = withFunctions(SimpleComponent);
     return (
         <CollapseWrapper title="Упражнение">

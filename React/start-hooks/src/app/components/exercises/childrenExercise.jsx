@@ -6,7 +6,7 @@ const ChildrenExercise = () => {
         return React.Children.map(children, (child, num) => {
             return (
                 <>
-                    {num + " Номер:"} {child}
+                    {num} {child}
                 </>
             );
         });
