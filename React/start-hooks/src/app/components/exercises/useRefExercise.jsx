@@ -1,13 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import CollapseWrapper from "../common/collapse";
 const UseRefExercise = () => {
-    const inputRef = useRef();
-    const [textBtn, setTextBtn] = useState("блок");
+    const blockRef = useRef();
     const handleClickWidthAndHeigth = () => {
-        setTextBtn((prevState) => (prevState === "блок" ? "text" : "блок"));
-
-        inputRef.current.style.width = "80px";
-        inputRef.current.style.height = "150px";
+        blockRef.current.style.width = "150px";
+        blockRef.current.style.height = "80px";
+        blockRef.current.textContent = "text";
     };
 
     return (
@@ -21,7 +19,7 @@ const UseRefExercise = () => {
                 <li>высота и ширина станут равны 150 и 80 соответственно</li>
             </ul>
             <div
-                ref={inputRef}
+                ref={blockRef}
                 className="bg-primary d-flex flex-row justify-content-center align-items-center rounded"
                 style={{
                     height: 40,
@@ -29,7 +27,7 @@ const UseRefExercise = () => {
                     color: "white"
                 }}
             >
-                <small>{textBtn}</small>
+                <small>Блок</small>
             </div>
             <button
                 className={"btn btn-primary mt-3"}
