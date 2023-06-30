@@ -9,7 +9,7 @@ import EditUserPage from './components/page/editUserPage/editUserPage'
 
 function App() {
   return (
-    <div>
+    <div className={'container'}>
       <NavBar />
       <Switch>
         <Route path={'/users/:userId?/edit'} component={EditUserPage} />

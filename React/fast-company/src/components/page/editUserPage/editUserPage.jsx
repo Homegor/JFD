@@ -22,6 +22,7 @@ const EditUserPage = () => {
   const [errors, setErrors] = useState({})
   const [professions, setProfessions] = useState([])
   const [qualities, setQualities] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleChange = (target) => {
     setData((prevState) => ({ ...prevState, [target.name]: target.value }))
@@ -62,6 +63,7 @@ const EditUserPage = () => {
   }
 
   useEffect(() => {
+    setIsLoading(true)
     api.qualities.fetchAll().then((data) => setQualities(data))
     api.professions.fetchAll().then((data) => setProfessions(data))
     api.users.getById(userId).then(({ profession, qualities, ...data }) =>
@@ -73,6 +75,9 @@ const EditUserPage = () => {
       }))
     )
   }, [])
+  useEffect(() => {
+    if (data._id) setIsLoading(false)
+  }, [data])
   useEffect(() => {
     validate()
   }, [data])
@@ -111,11 +116,11 @@ const EditUserPage = () => {
   }
   const isValid = Object.keys(errors).length === 0
 
-  if (Object.keys(professions).length > 0) {
-    return (
-      <div className='container mt-5'>
-        <div className='row'>
-          <div className='col-md-6 offset-md-3 shadow p-4'>
+  return (
+    <div className='container mt-5'>
+      <div className='row'>
+        <div className='col-md-6 offset-md-3 shadow p-4'>
+          {!isLoading && Object.keys(professions).length > 0 ? (
             <form onSubmit={handleSubmit}>
               <TextField
                 label={'Имя'}
@@ -166,14 +171,20 @@ const EditUserPage = () => {
               >
                 Обновить
               </button>
+              <button
+                className={'btn btn-primary'}
+                onClick={() => history.goBack()}
+              >
+                Назад
+              </button>
             </form>
-          </div>
+          ) : (
+            'Loading...'
+          )}
         </div>
       </div>
-    )
-  } else {
-    return <h1>Loader...</h1>
-  }
+    </div>
+  )
 }
 
 export default EditUserPage
