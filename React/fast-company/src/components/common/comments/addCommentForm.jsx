@@ -71,10 +71,10 @@ const AddCommentForm = ({ onSubmit }) => {
         <SelectField
           onChange={handleChange}
           options={arrayOfUsers}
-          name='name'
-          value={data.name}
+          name='userId'
+          value={data.userId}
           defaultOption='Выберите пользователя'
-          error={errors.name}
+          error={errors.userId}
         />
         <TextAreaField
           value={data.content}

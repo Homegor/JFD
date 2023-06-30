@@ -34,7 +34,7 @@ const SelectField = ({
         label={'Выберите свою профессию'}
         className={getInputClasses()}
         id={name}
-        name={'profession'}
+        name={name}
         value={value}
         onChange={handleChange}
       >
