@@ -56,17 +56,17 @@ const AuthProvider = ({ children }) => {
     } catch (error) {
       errorCatcher(error)
       const { code, message } = error.response.data.error
+
       if (code === 400) {
-        if (message === 'INVALID_PASSWORD') {
-          throw new Error('Email или пароль введены неверно')
-        }
-        if (message === 'TOO_MANY_ATTEMPTS_TRY_LATER') {
-          throw new Error(
-            'Подозрительная активность. Пользователь заблокирован.'
-          )
-        }
-        if (message === 'USER_DISABLED') {
-          throw new Error('Подозрительная удален')
+        switch (message) {
+          case 'INVALID_PASSWORD':
+            throw new Error('Email или пароль введены неверно')
+          case 'USER_DISABLED':
+            throw new Error('Подозрительная удален')
+          default:
+            throw new Error(
+              'Подозрительная активность. Пользователь заблокирован.'
+            )
         }
       }
     }
