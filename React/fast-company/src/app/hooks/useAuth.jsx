@@ -5,7 +5,12 @@ import userService from '../services/user.service'
 import { toast } from 'react-toastify'
 import { setTokens } from '../services/localStorage.service'
 
-const httpAuth = axios.create()
+const httpAuth = axios.create({
+  baseURL: 'https://identitytoolkit.googleapis.com/v1/',
+  params: {
+    key: process.env.REACT_APP_FIREBASE_KEY
+  }
+})
 const AuthContext = React.createContext()
 
 export const useAuth = () => {
@@ -17,9 +22,8 @@ const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null)
 
   async function signUp({ email, password, ...rest }) {
-    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`
     try {
-      const { data } = await httpAuth.post(url, {
+      const { data } = await httpAuth.post(`accounts:signUp`, {
         email,
         password,
         returnSecureToken: true
@@ -42,9 +46,8 @@ const AuthProvider = ({ children }) => {
   }
 
   async function signIn({ email, password }) {
-    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_KEY}`
     try {
-      const { data } = await httpAuth.post(url, {
+      const { data } = await httpAuth.post(`accounts:signInWithPassword`, {
         email,
         password,
         returnSecureToken: true
@@ -55,10 +58,15 @@ const AuthProvider = ({ children }) => {
       const { code, message } = error.response.data.error
       if (code === 400) {
         if (message === 'INVALID_PASSWORD') {
-          const errorObject = {
-            password: 'Пароль введен неверно'
-          }
-          throw errorObject
+          throw new Error('Email или пароль введены неверно')
+        }
+        if (message === 'TOO_MANY_ATTEMPTS_TRY_LATER') {
+          throw new Error(
+            'Подозрительная активность. Пользователь заблокирован.'
+          )
+        }
+        if (message === 'USER_DISABLED') {
+          throw new Error('Подозрительная удален')
         }
       }
     }
