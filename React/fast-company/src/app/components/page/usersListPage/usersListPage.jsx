@@ -4,20 +4,22 @@ import _ from 'lodash'
 
 import { paginate } from '../../../utils/paginate'
 import Pagination from '../../common/pagination'
-import api from '../../../api'
 import GroupList from '../../common/groupList'
 import SearchStatus from '../../ui/searchStatus'
 import UsersTable from '../../ui/usersTable'
 import { useUser } from '../../../hooks/useUsers'
+import { useProfessions } from '../../../hooks/useProfession'
+import { useAuth } from '../../../hooks/useAuth'
 
 const UsersListPage = () => {
+  const { users } = useUser()
+  const { currentUser } = useAuth()
+  const { professions, isLoading: professionsLoading } = useProfessions()
+
   const [currentPage, setCurrentPage] = useState(1)
-  const [professions, setProfession] = useState([])
   const [selectedProf, setSelectedProf] = useState()
   const [sortBy, setSortBy] = useState({ iter: 'name', order: 'asc' })
   const [value, setValue] = useState({ search: '' })
-
-  const { users } = useUser()
 
   const handleDelete = (userId) => {
     // setUsers(users.filter((user) => user._id !== userId))
@@ -43,10 +45,6 @@ const UsersListPage = () => {
   const pageSize = 8
 
   useEffect(() => {
-    api.professions.fetchAll().then((data) => setProfession(data))
-  }, [])
-
-  useEffect(() => {
     setCurrentPage(1)
   }, [selectedProf])
 
@@ -63,12 +61,19 @@ const UsersListPage = () => {
   }
 
   if (users) {
-    const filteredUsers = selectedProf
-      ? users.filter((user) => user.profession._id === selectedProf._id)
-      : users
+    function filterUser(data) {
+      const filteredUsers = selectedProf
+        ? data.filter((user) => user.profession._id === selectedProf._id)
+        : data
+      return filteredUsers.filter((u) => u._id !== currentUser._id)
+    }
+
+    const filteredUsers = filterUser(users)
+
     const filteredUsersName = filteredUsers.filter((user) => {
       return user.name.toLowerCase().includes(value.search.toLowerCase())
     })
+
     const count = filteredUsersName.length
     const sortedUsers = _.orderBy(
       filteredUsersName,
@@ -92,7 +97,7 @@ const UsersListPage = () => {
 
     return (
       <div className='d-flex'>
-        {professions && (
+        {professions && !professionsLoading && (
           <div className='d-flex flex-column flex-shrink-0 p-3'>
             <GroupList
               selectedItem={selectedProf}
