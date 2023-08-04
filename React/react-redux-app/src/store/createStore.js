@@ -8,7 +8,7 @@ export function createStore(reducer, initialState) {
   function dispatch(action) {
     state = reducer(state, action);
     for (let i = 0; i < listeners.length; i++) {
-      const listener = listeners[1];
+      const listener = listeners[i];
       listener();
     }
   }
