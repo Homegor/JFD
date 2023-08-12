@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 
-import api from '../../../api'
+// import api from '../../../api'
 import TextField from '../../common/form/textField'
 import SelectField from '../../common/form/selectField'
 import RadioField from '../../common/form/radioField'
 import MultiSelectField from '../../common/form/multiSelectField'
 import { validator } from '../../../utils/validator'
+import { useAuth } from '../../../hooks/useAuth'
+import { useProfessions } from '../../../hooks/useProfession'
+import { useQualities } from '../../../hooks/useQualities'
 
 const EditUserPage = () => {
   const { userId } = useParams()
+  console.log('чтоб не мешало', userId)
   const history = useHistory()
 
   const [data, setData] = useState({
@@ -20,61 +24,75 @@ const EditUserPage = () => {
     qualities: []
   })
   const [errors, setErrors] = useState({})
-  const [professions, setProfessions] = useState([])
-  const [qualities, setQualities] = useState({})
+  // const [professions, setProfessions] = useState([])
+  // const [qualities, setQualities] = useState({})
   const [isLoading, setIsLoading] = useState(false)
+
+  const { currentUser, updateUser } = useAuth()
+  console.log('заполняет поля', currentUser)
+
+  const { professions, isLoading: professionsLoading } = useProfessions()
+  const professionsList = professions.map((p) => ({
+    label: p.name,
+    value: p._id
+  }))
+  const { qualities, isLoading: qualitiesLoading } = useQualities()
+  const qualitiesList = qualities.map((q) => ({
+    label: q.name,
+    value: q._id
+  }))
 
   const handleChange = (target) => {
     setData((prevState) => ({ ...prevState, [target.name]: target.value }))
   }
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const isValid = validate()
-    if (!isValid) return false
-    const { profession, qualities } = data
-    api.users
-      .update(userId, {
-        ...data,
-        profession: getProfId(profession),
-        qualities: getQualId(qualities)
-      })
-      .then((data) => history.push(`/users/${data._id}`))
-  }
-  const transformData = (data) => {
-    return data.map((item) => ({ label: item.name, value: item._id }))
-  }
 
-  const getProfId = (id) => {
-    for (const prof in professions) {
-      const profData = professions[prof]
-      if (profData._id === id) return profData
-    }
-  }
-  const getQualId = (item) => {
-    const qualArray = []
-    for (const elem of item) {
-      for (const quality in qualities) {
-        if (elem.value === qualities[quality]._id) {
-          qualArray.push(qualities[quality])
+  // const getProfId = (id) => {
+  //   for (const prof in professions) {
+  //     const profData = professions[prof]
+  //     if (profData._id === id) return profData
+  //   }
+  // }
+  function getQualitiesListByIds(qualitiesId) {
+    const qualitiesArray = []
+    for (const qualId of qualitiesId) {
+      for (const quality of qualities) {
+        if (quality._id === qualId) {
+          qualitiesArray.push(quality)
+          break
         }
       }
     }
-    return qualArray
+    return qualitiesArray
+  }
+  const transformData = (data) => {
+    return getQualitiesListByIds(data).map((qual) => ({
+      label: qual.name,
+      value: qual._id
+    }))
   }
 
   useEffect(() => {
-    setIsLoading(true)
-    api.qualities.fetchAll().then((data) => setQualities(data))
-    api.professions.fetchAll().then((data) => setProfessions(data))
-    api.users.getById(userId).then(({ profession, qualities, ...data }) =>
-      setData((prevState) => ({
-        ...prevState,
-        ...data,
-        qualities: transformData(qualities),
-        profession: profession._id
-      }))
-    )
-  }, [])
+    if (!professionsLoading && !qualitiesLoading && currentUser && !data) {
+      setData({
+        ...currentUser,
+        qualities: transformData(currentUser.qualities)
+      })
+    }
+  }, [professionsLoading, qualitiesLoading, currentUser, data])
+
+  // useEffect(() => {
+  //   setIsLoading(true)
+  //   api.qualities.fetchAll().then((data) => setQualities(data))
+  //   api.professions.fetchAll().then((data) => setProfessions(data))
+  //   api.users.getById(userId).then(({ profession, qualities, ...data }) =>
+  //     setData((prevState) => ({
+  //       ...prevState,
+  //       ...data,
+  //       qualities: transformData(qualities),
+  //       profession: profession._id
+  //     }))
+  //   )
+  // }, [])
   useEffect(() => {
     if (data._id) setIsLoading(false)
   }, [data])
@@ -115,9 +133,25 @@ const EditUserPage = () => {
     return Object.keys(errors).length === 0
   }
   const isValid = Object.keys(errors).length === 0
-
+  const handleSubmit = (newQual) => {
+    newQual.preventDefault()
+    const isValid = validate()
+    if (!isValid) return false
+    // const { profession, qualities } = data
+    // api.users
+    //   .update(userId, {
+    //     ...data,
+    //     profession: getProfId(profession),
+    //     qualities: getQualId(qualities)
+    //   })
+    //   .then((data) => history.push(`/users/${data._id}`))
+    updateUser({ ...data, qualities: data.qualities.map((q) => q.value) })
+  }
   return (
     <div className='container mt-5'>
+      <button className={'btn btn-primary'} onClick={() => history.goBack()}>
+        Назад
+      </button>
       <div className='row'>
         <div className='col-md-6 offset-md-3 shadow p-4'>
           {!isLoading && Object.keys(professions).length > 0 ? (
@@ -139,7 +173,7 @@ const EditUserPage = () => {
               <SelectField
                 label={'Выберите свою профессию'}
                 onChange={handleChange}
-                options={professions}
+                options={professionsList}
                 name={'profession'}
                 defaultOption={'Choose...'}
                 error={errors.profession}
@@ -158,7 +192,7 @@ const EditUserPage = () => {
                 error={errors.sex}
               />
               <MultiSelectField
-                options={qualities}
+                options={qualitiesList}
                 onChange={handleChange}
                 defaultValue={data.qualities}
                 name='qualities'
@@ -170,12 +204,6 @@ const EditUserPage = () => {
                 className={'btn btn-primary w-100 mx-auto'}
               >
                 Обновить
-              </button>
-              <button
-                className={'btn btn-primary'}
-                onClick={() => history.goBack()}
-              >
-                Назад
               </button>
             </form>
           ) : (
