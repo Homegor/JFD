@@ -1,35 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
 
-// import api from '../../../api'
-import TextField from '../../common/form/textField'
-import SelectField from '../../common/form/selectField'
-import RadioField from '../../common/form/radioField'
-import MultiSelectField from '../../common/form/multiSelectField'
+import { useHistory } from 'react-router-dom'
 import { validator } from '../../../utils/validator'
 import { useAuth } from '../../../hooks/useAuth'
 import { useProfessions } from '../../../hooks/useProfession'
 import { useQualities } from '../../../hooks/useQualities'
 
+import TextField from '../../common/form/textField'
+import SelectField from '../../common/form/selectField'
+import RadioField from '../../common/form/radioField'
+import MultiSelectField from '../../common/form/multiSelectField'
+
 const EditUserPage = () => {
-  const { userId } = useParams()
-  console.log('чтоб не мешало', userId)
   const history = useHistory()
 
-  const [data, setData] = useState({
-    name: '',
-    email: '',
-    profession: '',
-    sex: '',
-    qualities: []
-  })
+  const [data, setData] = useState()
   const [errors, setErrors] = useState({})
-  // const [professions, setProfessions] = useState([])
-  // const [qualities, setQualities] = useState({})
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const { currentUser, updateUser } = useAuth()
-  console.log('заполняет поля', currentUser)
 
   const { professions, isLoading: professionsLoading } = useProfessions()
   const professionsList = professions.map((p) => ({
@@ -46,12 +35,6 @@ const EditUserPage = () => {
     setData((prevState) => ({ ...prevState, [target.name]: target.value }))
   }
 
-  // const getProfId = (id) => {
-  //   for (const prof in professions) {
-  //     const profData = professions[prof]
-  //     if (profData._id === id) return profData
-  //   }
-  // }
   function getQualitiesListByIds(qualitiesId) {
     const qualitiesArray = []
     for (const qualId of qualitiesId) {
@@ -80,21 +63,8 @@ const EditUserPage = () => {
     }
   }, [professionsLoading, qualitiesLoading, currentUser, data])
 
-  // useEffect(() => {
-  //   setIsLoading(true)
-  //   api.qualities.fetchAll().then((data) => setQualities(data))
-  //   api.professions.fetchAll().then((data) => setProfessions(data))
-  //   api.users.getById(userId).then(({ profession, qualities, ...data }) =>
-  //     setData((prevState) => ({
-  //       ...prevState,
-  //       ...data,
-  //       qualities: transformData(qualities),
-  //       profession: profession._id
-  //     }))
-  //   )
-  // }, [])
   useEffect(() => {
-    if (data._id) setIsLoading(false)
+    if (data && isLoading) setIsLoading(false)
   }, [data])
   useEffect(() => {
     validate()
