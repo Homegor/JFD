@@ -7,6 +7,7 @@ import {
   loadTasks,
   getTasks,
   getTasksLoadingStatus,
+  createTask,
 } from "./store/task";
 import configureStore from "./store/store";
 import { Provider } from "react-redux";
@@ -31,6 +32,9 @@ const App = (params) => {
   const deleteTask = (taskId) => {
     dispatch(taskDeleted(taskId));
   };
+  const newTasks = (payload) => {
+    dispatch(createTask(payload));
+  };
   if (isLoading) {
     return <h1>Loading</h1>;
   }
@@ -41,6 +45,7 @@ const App = (params) => {
   return (
     <>
       <h1> App</h1>
+      <button onClick={newTasks}>Create Tasks</button>
       <ul>
         {state.map((el) => (
           <li key={el.id}>
@@ -51,6 +56,7 @@ const App = (params) => {
             </button>
             <button onClick={() => changeTitle(el.id)}>Change title</button>
             <button onClick={() => deleteTask(el.id)}>Delete</button>
+
             <hr />
           </li>
         ))}
