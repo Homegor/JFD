@@ -10,8 +10,6 @@ const taskSlice = createSlice({
     received(state, action) {
       state.entities = action.payload;
       state.isLoading = false;
-      console.log(state);
-      console.log(action);
     },
     update(state, action) {
       const elementIndex = state.entities.findIndex(
@@ -34,7 +32,7 @@ const taskSlice = createSlice({
       state.isLoading = false;
     },
     addition(state, action) {
-      state.entities.push(action.payload);
+      state.entities.unshift(action.payload);
     },
   },
 });
@@ -47,15 +45,13 @@ export const loadTasks = () => async (dispatch) => {
   try {
     const data = await todosService.fetch();
     dispatch(received(data));
-    const addData = await todosService.fetchAdd();
-    dispatch(addition(addData));
   } catch (error) {
     dispatch(taskRequestFailed());
     dispatch(setError(error.message));
   }
 };
 
-export const completeTask = (id) => (dispatch, getState) => {
+export const completeTask = (id) => (dispatch) => {
   dispatch(update({ id, completed: true }));
 };
 
@@ -65,9 +61,10 @@ export function titleChanged(id) {
 export function taskDeleted(id) {
   return remove({ id });
 }
-export const createTask = (payload) => async (dispatch) => {
+export const taskCreated = (payload) => async (dispatch) => {
+  dispatch(completeTask(payload));
   try {
-    const data = await todosService.fetchAdd(payload);
+    const data = await todosService.createNewTasks(payload);
     dispatch(addition(data));
   } catch (error) {
     dispatch(setError(error.message));

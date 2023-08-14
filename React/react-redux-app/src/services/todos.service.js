@@ -6,18 +6,13 @@ const todosService = {
     const { data } = await httpService.get(todosEndpoint, {
       params: {
         _page: 1,
-        _limit: 2,
+        _limit: 10,
       },
     });
     return data;
   },
-  fetchAdd: async () => {
-    const { data } = await httpService.post(todosEndpoint, {
-      params: {
-        _title: "new tasks",
-        _completed: "false",
-      },
-    });
+  createNewTasks: async (payload) => {
+    const { data } = await httpService.post(todosEndpoint, payload);
     return data;
   },
 };
