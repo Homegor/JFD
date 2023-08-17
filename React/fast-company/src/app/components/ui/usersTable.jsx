@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import BookMark from '../common/bookmark'
 import Qualities from './qualities'
 import Table from '../common/table'
 import { Link } from 'react-router-dom'
 import Profession from './profession'
+import Bookmark from '../common/bookmark'
 
 const UsersTable = ({ users, onSort, selectedSort, onBookMark, ...rest }) => {
   const columns = {
@@ -31,7 +31,7 @@ const UsersTable = ({ users, onSort, selectedSort, onBookMark, ...rest }) => {
       path: 'bookmark',
       name: 'Избранное',
       component: (user) => (
-        <BookMark
+        <Bookmark
           status={user.bookmark}
           onBookMark={onBookMark}
           _id={user._id}
