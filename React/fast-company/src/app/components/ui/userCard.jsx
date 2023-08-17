@@ -30,7 +30,11 @@ const userCard = ({ user }) => {
           />
           <div className='mt-3'>
             <h4>{user.name}</h4>
-            <p className='text-secondary mb-1'>{user.profession.name}</p>
+            <p className='text-secondary mb-1'>
+              {user.profession.name
+                ? user.profession.name
+                : 'Не найдена профессия'}
+            </p>
             <div className='text-muted'>
               <i
                 className='bi bi-caret-down-fill text-primary'

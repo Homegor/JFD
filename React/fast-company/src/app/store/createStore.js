@@ -3,8 +3,8 @@ import qualitiesReducer from './qualities'
 import professionsReducer from './professions'
 
 const rootReducer = combineReducers({
-  qualities: qualitiesReducer,
-  professions: professionsReducer
+  professions: professionsReducer,
+  qualities: qualitiesReducer
 })
 
 export function createStore() {

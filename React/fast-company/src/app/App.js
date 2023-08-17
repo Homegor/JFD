@@ -11,10 +11,10 @@ import Users from './layouts/users'
 import Login from './layouts/login'
 import LogOut from './layouts/logOut'
 
-import { ProfessionProvider } from './hooks/useProfession'
 import AuthProvider from './hooks/useAuth'
 
 import { loadQualitiesList } from './store/qualities'
+import { loadProfessionsList } from './store/professions'
 
 // import EditUserPage from './components/page/editUserPage/editUserPage'
 
@@ -22,21 +22,20 @@ function App() {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(loadQualitiesList())
+    dispatch(loadProfessionsList())
   }, [])
   return (
     <div className={'container'}>
       <AuthProvider>
         <NavBar />
-        <ProfessionProvider>
-          <Switch>
-            {/* <Route path={'/users/:userId?/edit'} component={EditUserPage} /> */}
-            <ProtectedRoute path={'/users/:userId?/:edit?'} component={Users} />
-            <Route path={'/login/:type?'} component={Login} />
-            <Route path={'/logout'} component={LogOut} />
-            <Route path={'/'} exact component={Main} />
-            <Redirect to={'/'} />
-          </Switch>
-        </ProfessionProvider>
+        <Switch>
+          {/* <Route path={'/users/:userId?/edit'} component={EditUserPage} /> */}
+          <ProtectedRoute path={'/users/:userId?/:edit?'} component={Users} />
+          <Route path={'/login/:type?'} component={Login} />
+          <Route path={'/logout'} component={LogOut} />
+          <Route path={'/'} exact component={Main} />
+          <Redirect to={'/'} />
+        </Switch>
       </AuthProvider>
       <ToastContainer />
     </div>

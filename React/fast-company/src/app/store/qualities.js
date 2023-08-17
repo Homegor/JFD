@@ -35,7 +35,6 @@ function isOutDated(date) {
 export const loadQualitiesList = () => async (dispatch, getState) => {
   const { lastFetch } = getState().qualities
   if (isOutDated(lastFetch)) {
-    console.log(lastFetch)
     dispatch(qualitiesRequested())
     try {
       const { content } = await qualitiesService.get()

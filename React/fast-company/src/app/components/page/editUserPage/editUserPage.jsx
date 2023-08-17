@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { validator } from '../../../utils/validator'
 import { useAuth } from '../../../hooks/useAuth'
-import { useProfessions } from '../../../hooks/useProfession'
 
 import TextField from '../../common/form/textField'
 import SelectField from '../../common/form/selectField'
@@ -14,6 +13,10 @@ import {
   getQualities,
   getQualitiesLoadingStatus
 } from '../../../store/qualities'
+import {
+  getProfessions,
+  getProfessionsLoadingStatus
+} from '../../../store/professions'
 
 const EditUserPage = () => {
   const history = useHistory()
@@ -24,7 +27,8 @@ const EditUserPage = () => {
 
   const { currentUser, updateUser } = useAuth()
 
-  const { professions, isLoading: professionsLoading } = useProfessions()
+  const professions = useSelector(getProfessions())
+  const professionsLoading = useSelector(getProfessionsLoadingStatus())
   const professionsList = professions.map((p) => ({
     label: p.name,
     value: p._id

@@ -32,7 +32,7 @@ const taskSlice = createSlice({
       state.isLoading = false;
     },
     addition(state, action) {
-      state.entities.unshift(action.payload);
+      state.entities.push(action.payload);
     },
   },
 });
