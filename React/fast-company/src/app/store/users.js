@@ -5,16 +5,27 @@ import localStorageService from '../services/localStorage.service'
 import getRandomInt from '../utils/getRandomInt'
 import history from '../utils/history'
 
+const initialState = localStorageService.getAccessToken()
+  ? {
+      entities: null,
+      isLoading: true,
+      error: null,
+      auth: { userId: localStorageService.getUserId() },
+      isLoggedIn: true,
+      dataLoaded: false
+    }
+  : {
+      entities: null,
+      isLoading: false,
+      error: null,
+      auth: null,
+      isLoggedIn: false,
+      dataLoaded: false
+    }
+
 const usersSlice = createSlice({
   name: 'users',
-  initialState: {
-    entities: null,
-    isLoading: true,
-    error: null,
-    auth: null,
-    isLoggedIn: false,
-    dataLoaded: false
-  },
+  initialState,
   reducers: {
     usersRequested: (state) => {
       state.isLoading = true
@@ -40,6 +51,17 @@ const usersSlice = createSlice({
         state.entities = []
       }
       state.entities.push(action.payload)
+    },
+    userLoggedOut: (state) => {
+      state.entities = null
+      state.isLoggedIn = false
+      state.auth = null
+      state.dataLoaded = false
+    },
+    userUpdateSuccess: (state, actions) => {
+      state.entities[
+        state.entities.findIndex((u) => u._id === actions.payload._id)
+      ] = actions.payload
     }
   }
 })
@@ -51,12 +73,16 @@ const {
   usersRequestFiled,
   authRequestedSuccess,
   authRequestedFiled,
-  userCreated
+  userCreated,
+  userLoggedOut,
+  userUpdateSuccess
 } = actions
 
 const authRequested = createAction('users/authRequested')
 const userCreateRequested = createAction('users/userCreateRequested')
-const createUserError = createAction('user/createUserError')
+const createUserError = createAction('users/createUserError')
+const userUpdateRequested = createAction('users/userUpdateRequested')
+const userUpdateError = createAction('users/userUpdateError')
 
 export const login =
   ({ payload, redirect }) =>
@@ -111,7 +137,6 @@ function createUser(payload) {
     }
   }
 }
-
 export const loadUsersList = () => async (dispatch, getState) => {
   dispatch(usersRequested())
   try {
@@ -121,16 +146,34 @@ export const loadUsersList = () => async (dispatch, getState) => {
     dispatch(usersRequestFiled(error.message))
   }
 }
-
+export const logOut = () => (dispatch) => {
+  localStorageService.removeAuthData()
+  dispatch(userLoggedOut())
+  history.push('/')
+}
+export const updateUser = (payload) => async (dispatch) => {
+  dispatch(userUpdateRequested())
+  try {
+    const { content } = await userService.update(payload)
+    dispatch(userUpdateSuccess(content))
+    history.push(`/users/${content._id}`)
+  } catch (error) {
+    dispatch(userUpdateError(error.message))
+  }
+}
 export const getUsersList = () => (state) => state.users.entities
-
 export const getUserById = (usersId) => (state) => {
   if (state.users.entities) {
     return state.users.entities.find((u) => u._id === usersId)
   }
 }
-
 export const getIsLoggedIn = () => (state) => state.users.isLoggedIn
 export const getDataStatus = () => (state) => state.users.dataLoaded
 export const getCurrentUserId = () => (state) => state.users.auth.userId
+export const getCurrentUserData = () => (state) => {
+  return state.users.entities
+    ? state.users.entities.find((u) => u._id === state.users.auth.userId)
+    : null
+}
+export const getUsersLoadingStatus = () => (state) => state.users.isLoading
 export default usersReducer
