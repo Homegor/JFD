@@ -15,6 +15,7 @@ import AuthProvider from './hooks/useAuth'
 
 import { loadQualitiesList } from './store/qualities'
 import { loadProfessionsList } from './store/professions'
+import { loadUsersList } from './store/users'
 
 // import EditUserPage from './components/page/editUserPage/editUserPage'
 
@@ -23,6 +24,7 @@ function App() {
   useEffect(() => {
     dispatch(loadQualitiesList())
     dispatch(loadProfessionsList())
+    dispatch(loadUsersList())
   }, [])
   return (
     <div className={'container'}>
