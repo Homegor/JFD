@@ -7,17 +7,16 @@ import Pagination from '../../common/pagination'
 import GroupList from '../../common/groupList'
 import SearchStatus from '../../ui/searchStatus'
 import UsersTable from '../../ui/usersTable'
-import { useUser } from '../../../hooks/useUsers'
-import { useAuth } from '../../../hooks/useAuth'
 import { useSelector } from 'react-redux'
 import {
   getProfessions,
   getProfessionsLoadingStatus
 } from '../../../store/professions'
+import { getCurrentUserId, getUsersList } from '../../../store/users'
 
 const UsersListPage = () => {
-  const { users } = useUser()
-  const { currentUser } = useAuth()
+  const users = useSelector(getUsersList())
+  const currentUserId = useSelector(getCurrentUserId())
 
   const professions = useSelector(getProfessions())
   const professionsLoading = useSelector(getProfessionsLoadingStatus())
@@ -70,7 +69,7 @@ const UsersListPage = () => {
       const filteredUsers = selectedProf
         ? data.filter((user) => user.profession._id === selectedProf._id)
         : data
-      return filteredUsers.filter((u) => u._id !== currentUser._id)
+      return filteredUsers.filter((u) => u._id !== currentUserId)
     }
 
     const filteredUsers = filterUser(users)
