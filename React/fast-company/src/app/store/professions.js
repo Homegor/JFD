@@ -15,6 +15,7 @@ const professionsSlice = createSlice({
     },
     professionsReceived: (state, action) => {
       state.entities = action.payload
+      state.lastFetch = Date.now()
       state.isLoading = false
     },
     professionsRequestFiled: (state, action) => {
@@ -49,6 +50,8 @@ export const getProfessionsLoadingStatus = () => (state) =>
   state.professions.isLoading
 
 export const getProfessionsById = (professionsId) => (state) => {
-  state.professions.entities.find((p) => p._id === professionsId)
+  if (state.professions.entities) {
+    return state.professions.entities.find((p) => p._id === professionsId)
+  }
 }
 export default professionsReducer

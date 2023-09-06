@@ -9,7 +9,7 @@ import {
 const Profession = ({ id }) => {
   const isLoading = useSelector(getProfessionsLoadingStatus())
 
-  if (isLoading) {
+  if (!isLoading) {
     const professions = useSelector(getProfessionsById(id))
 
     return <p>{professions.name}</p>

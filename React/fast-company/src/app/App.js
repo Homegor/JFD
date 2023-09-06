@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 
 import NavBar from './components/ui/navBar'
@@ -11,22 +10,14 @@ import Users from './layouts/users'
 import Login from './layouts/login'
 import LogOut from './layouts/logOut'
 
-import AuthProvider from './hooks/useAuth'
-
-import { loadQualitiesList } from './store/qualities'
-import { loadProfessionsList } from './store/professions'
+import AppLoader from './components/ui/hoc/appLoader'
 
 // import EditUserPage from './components/page/editUserPage/editUserPage'
 
 function App() {
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(loadQualitiesList())
-    dispatch(loadProfessionsList())
-  }, [])
   return (
     <div className={'container'}>
-      <AuthProvider>
+      <AppLoader>
         <NavBar />
         <Switch>
           {/* <Route path={'/users/:userId?/edit'} component={EditUserPage} /> */}
@@ -36,7 +27,8 @@ function App() {
           <Route path={'/'} exact component={Main} />
           <Redirect to={'/'} />
         </Switch>
-      </AuthProvider>
+      </AppLoader>
+
       <ToastContainer />
     </div>
   )
