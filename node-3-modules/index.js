@@ -74,7 +74,12 @@ const server = http.createServer(async (req, res) => {
 
 const chalk = require("chalk");
 const path = require("path");
-const { addNote, getNotes, removeNotes } = require("./notes.controller");
+const {
+  addNote,
+  getNotes,
+  removeNotes,
+  editNotes,
+} = require("./notes.controller");
 const express = require("express");
 
 const port = 3000;
@@ -106,10 +111,6 @@ app.post("/", async (req, res) => {
     created: true,
   });
 });
-
-app.listen(port, () => {
-  console.log(chalk.green(`Server has been started on port: ${port}...`));
-});
 app.delete("/:id", async (req, res) => {
   await removeNotes(req.params.id);
   res.render("index", {
@@ -117,4 +118,15 @@ app.delete("/:id", async (req, res) => {
     notes: await getNotes(),
     created: false,
   });
+  app.put("/:id", async (req, res) => {
+    await editNotes(req.params.id, req.params.title);
+    res.render("index", {
+      title: "Express App",
+      notes: await getNotes(),
+      created: true,
+    });
+  });
+});
+app.listen(port, () => {
+  console.log(chalk.green(`Server has been started on port: ${port}...`));
 });
