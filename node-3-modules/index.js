@@ -47,7 +47,7 @@ yargs.command({
 yargs.parse();
 */
 /*
-const server = http.createServer(async (req, res) => {
+const servers = http.createServer(async (req, res) => {
   if (req.method === "GET") {
     const content = await fs.readFile(path.join(basePath, "index.ejs"));
     // res.setHeader("Content-Type", "text/html");
