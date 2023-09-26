@@ -5,7 +5,7 @@
  */
 const config = require("../config/config.json");
 const app = require("../app");
-const debug = require("debug")("server:server");
+const debug = require("debug")("servers:servers");
 const http = require("http");
 
 /**
@@ -16,7 +16,7 @@ const port = normalizePort(process.env.PORT || config.port || "8080");
 app.set("port", port);
 
 /**
- * Create HTTP server.
+ * Create HTTP servers.
  */
 
 const server = http.createServer(app);
@@ -50,7 +50,7 @@ function normalizePort(val) {
 }
 
 /**
- * Event listener for HTTP server "error" event.
+ * Event listener for HTTP servers "error" event.
  */
 
 function onError(error) {
@@ -76,7 +76,7 @@ function onError(error) {
 }
 
 /**
- * Event listener for HTTP server "listening" event.
+ * Event listener for HTTP servers "listening" event.
  */
 
 function onListening() {
