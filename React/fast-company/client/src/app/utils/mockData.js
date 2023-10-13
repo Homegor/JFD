@@ -5,33 +5,33 @@ import users from '../mockData/users.json'
 import httpService from '../services/http.service'
 
 const useMockData = () => {
-  const statusConst = {
-    idle: 'Not Status',
+  const statusConsts = {
+    idle: 'Not Started',
     pending: 'In Process',
-    success: 'Ready',
-    error: 'Error occurred'
+    successed: 'Ready',
+    error: 'Error occured'
   }
   const [error, setError] = useState(null)
-  const [status, setStatus] = useState(statusConst.idle)
+  const [status, setStatus] = useState(statusConsts.idle)
   const [progress, setProgress] = useState(0)
   const [count, setCount] = useState(0)
-  const summeryCount = professions.length + qualities.length + users.length
-
+  const summuryCount = professions.length + qualities.length + users.length
   const incrementCount = () => {
     setCount((prevState) => prevState + 1)
   }
   const updateProgress = () => {
-    if (count !== 0 && status === statusConst.idle) {
-      setStatus(statusConst.pending)
+    if (count !== 0 && status === statusConsts.idle) {
+      setStatus(statusConsts.pending)
     }
-    const newProgress = Math.floor((count / summeryCount) * 100)
+    const newProgress = Math.floor((count / summuryCount) * 100)
     if (progress < newProgress) {
       setProgress(() => newProgress)
     }
     if (newProgress === 100) {
-      setStatus(statusConst.success)
+      setStatus(statusConsts.successed)
     }
   }
+
   useEffect(() => {
     updateProgress()
   }, [count])
@@ -51,7 +51,7 @@ const useMockData = () => {
       }
     } catch (error) {
       setError(error)
-      setStatus(statusConst.error)
+      setStatus(statusConsts.error)
     }
   }
 

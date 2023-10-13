@@ -18,10 +18,10 @@ const CheckBoxField = ({ name, value, onChange, children, error }) => {
         onChange={handleChange}
         checked={value}
       />
-      <label className='form-check-label' htmlFor='defaultCheck1'>
+      <label className='form-check-label ' htmlFor={name}>
         {children}
       </label>
-      {error && <div className={'invalid-feedback'}>{error}</div>}
+      {error && <div className='invalid-feedback'>{error}</div>}
     </div>
   )
 }
@@ -35,4 +35,5 @@ CheckBoxField.propTypes = {
   ]),
   error: PropTypes.string
 }
+
 export default CheckBoxField

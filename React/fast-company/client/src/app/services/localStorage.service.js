@@ -6,24 +6,20 @@ const USERID_KEY = 'user-local-id'
 export function setTokens({
   refreshToken,
   accessToken,
-  userID,
+  userId,
   expiresIn = 3600
 }) {
-  const expiresData = new Date().getTime() + expiresIn * 1000
-  localStorage.setItem(USERID_KEY, userID)
+  const expiresDate = new Date().getTime() + expiresIn * 1000
+  localStorage.setItem(USERID_KEY, userId)
   localStorage.setItem(TOKEN_KEY, accessToken)
   localStorage.setItem(REFRESH_KEY, refreshToken)
-  localStorage.setItem(EXPIRES_KEY, expiresData)
+  localStorage.setItem(EXPIRES_KEY, expiresDate)
 }
-
 export function getAccessToken() {
   return localStorage.getItem(TOKEN_KEY)
 }
 export function getRefreshToken() {
   return localStorage.getItem(REFRESH_KEY)
-}
-export function getTokenExpiresDate() {
-  return localStorage.getItem(EXPIRES_KEY)
 }
 export function removeAuthData() {
   localStorage.removeItem(USERID_KEY)
@@ -32,6 +28,9 @@ export function removeAuthData() {
   localStorage.removeItem(EXPIRES_KEY)
 }
 
+export function getTokenExpiresDate() {
+  return localStorage.getItem(EXPIRES_KEY)
+}
 export function getUserId() {
   return localStorage.getItem(USERID_KEY)
 }

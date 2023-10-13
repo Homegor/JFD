@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import TableHeader from './tableHeader'
 import TableBody from './tableBody'
+import TableHeader from './tableHeader'
 
 const Table = ({ onSort, selectedSort, columns, data, children }) => {
   return (
@@ -16,16 +15,12 @@ const Table = ({ onSort, selectedSort, columns, data, children }) => {
     </table>
   )
 }
-
 Table.propTypes = {
   onSort: PropTypes.func,
   selectedSort: PropTypes.object,
   columns: PropTypes.object,
   data: PropTypes.array,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ])
+  children: PropTypes.array
 }
 
 export default Table

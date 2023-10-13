@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import qualitiesService from '../services/qualities.service'
+import qualityService from '../services/qaulity.service'
+import isOutdated from '../utils/isOutdated'
 
 const qualitiesSlice = createSlice({
   name: 'qualities',
@@ -13,7 +14,7 @@ const qualitiesSlice = createSlice({
     qualitiesRequested: (state) => {
       state.isLoading = true
     },
-    qualitiesReceived: (state, action) => {
+    qualitiesReceved: (state, action) => {
       state.entities = action.payload
       state.lastFetch = Date.now()
       state.isLoading = false
@@ -26,19 +27,15 @@ const qualitiesSlice = createSlice({
 })
 
 const { reducer: qualitiesReducer, actions } = qualitiesSlice
-const { qualitiesRequested, qualitiesReceived, qualitiesRequestFiled } = actions
-
-function isOutDated(date) {
-  return Date.now() - date > 10 * 60 * 1000
-}
+const { qualitiesRequested, qualitiesReceved, qualitiesRequestFiled } = actions
 
 export const loadQualitiesList = () => async (dispatch, getState) => {
   const { lastFetch } = getState().qualities
-  if (isOutDated(lastFetch)) {
+  if (isOutdated(lastFetch)) {
     dispatch(qualitiesRequested())
     try {
-      const { content } = await qualitiesService.get()
-      dispatch(qualitiesReceived(content))
+      const { content } = await qualityService.fetchAll()
+      dispatch(qualitiesReceved(content))
     } catch (error) {
       dispatch(qualitiesRequestFiled(error.message))
     }
@@ -48,13 +45,13 @@ export const loadQualitiesList = () => async (dispatch, getState) => {
 export const getQualities = () => (state) => state.qualities.entities
 export const getQualitiesLoadingStatus = () => (state) =>
   state.qualities.isLoading
-export const getQualitiesById = (qualitiesIds) => (state) => {
+export const getQulitiesByIds = (qualitiesIds) => (state) => {
   if (state.qualities.entities) {
     const qualitiesArray = []
     for (const qualId of qualitiesIds) {
-      for (const qualiti of state.qualities.entities) {
-        if (qualiti._id === qualId) {
-          qualitiesArray.push(qualiti)
+      for (const quality of state.qualities.entities) {
+        if (quality._id === qualId) {
+          qualitiesArray.push(quality)
           break
         }
       }

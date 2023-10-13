@@ -1,6 +1,5 @@
 export function validator(data, config) {
   const errors = {}
-
   function validate(validateMethod, data, config) {
     let statusValidate
     switch (validateMethod) {
@@ -27,7 +26,7 @@ export function validator(data, config) {
         statusValidate = !digitRegExp.test(data)
         break
       }
-      case 'minSymbol': {
+      case 'min': {
         statusValidate = data.length < config.value
         break
       }
@@ -36,7 +35,6 @@ export function validator(data, config) {
     }
     if (statusValidate) return config.message
   }
-
   for (const fieldName in data) {
     for (const validateMethod in config[fieldName]) {
       const error = validate(

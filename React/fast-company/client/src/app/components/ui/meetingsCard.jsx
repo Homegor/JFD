@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-const meetingsCard = ({ value }) => {
+const MeetingsCard = ({ value }) => {
   return (
     <div className='card mb-3'>
       <div className='card-body d-flex flex-column justify-content-center text-center'>
@@ -14,8 +13,8 @@ const meetingsCard = ({ value }) => {
     </div>
   )
 }
-
-meetingsCard.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+MeetingsCard.propTypes = {
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 }
-export default meetingsCard
+
+export default MeetingsCard
