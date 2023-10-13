@@ -1,10 +1,11 @@
 import React from 'react'
-import { Redirect, useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useParams, Redirect } from 'react-router-dom'
+import EditUserPage from '../components/page/editUserPage'
 import UserPage from '../components/page/userPage'
 import UsersListPage from '../components/page/usersListPage'
-import EditUserPage from '../components/page/editUserPage'
 import UsersLoader from '../components/ui/hoc/usersLoader'
-import { useSelector } from 'react-redux'
+
 import { getCurrentUserId } from '../store/users'
 const Users = () => {
   const params = useParams()

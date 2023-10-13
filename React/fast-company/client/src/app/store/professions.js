@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import professionsService from '../services/profession.service'
+import professionService from '../services/profession.service'
+import isOutdated from '../utils/isOutdated'
 
 const professionsSlice = createSlice({
   name: 'professions',
@@ -13,7 +14,7 @@ const professionsSlice = createSlice({
     professionsRequested: (state) => {
       state.isLoading = true
     },
-    professionsReceived: (state, action) => {
+    professionsReceved: (state, action) => {
       state.entities = action.payload
       state.lastFetch = Date.now()
       state.isLoading = false
@@ -26,20 +27,17 @@ const professionsSlice = createSlice({
 })
 
 const { reducer: professionsReducer, actions } = professionsSlice
-const { professionsRequested, professionsReceived, professionsRequestFiled } =
+const { professionsRequested, professionsReceved, professionsRequestFiled } =
   actions
-
-function isOutDated(date) {
-  return Date.now() - date > 10 * 60 * 1000
-}
 
 export const loadProfessionsList = () => async (dispatch, getState) => {
   const { lastFetch } = getState().professions
-  if (isOutDated(lastFetch)) {
+  if (isOutdated(lastFetch)) {
+    console.log('lastFetch', lastFetch)
     dispatch(professionsRequested())
     try {
-      const { content } = await professionsService.get()
-      dispatch(professionsReceived(content))
+      const { content } = await professionService.get()
+      dispatch(professionsReceved(content))
     } catch (error) {
       dispatch(professionsRequestFiled(error.message))
     }
@@ -48,10 +46,9 @@ export const loadProfessionsList = () => async (dispatch, getState) => {
 export const getProfessions = () => (state) => state.professions.entities
 export const getProfessionsLoadingStatus = () => (state) =>
   state.professions.isLoading
-
-export const getProfessionsById = (professionsId) => (state) => {
+export const getProfessionbyId = (id) => (state) => {
   if (state.professions.entities) {
-    return state.professions.entities.find((p) => p._id === professionsId)
+    return state.professions.entities.find((p) => p._id === id)
   }
 }
 export default professionsReducer

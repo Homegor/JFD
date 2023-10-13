@@ -1,6 +1,5 @@
 import { createAction, createSlice } from '@reduxjs/toolkit'
-import commentsService from '../services/comment.service'
-
+import commentService from '../services/comment.service'
 const commentsSlice = createSlice({
   name: 'comments',
   initialState: {
@@ -12,7 +11,7 @@ const commentsSlice = createSlice({
     commentsRequested: (state) => {
       state.isLoading = true
     },
-    commentsReceived: (state, action) => {
+    commentsReceved: (state, action) => {
       state.entities = action.payload
       state.isLoading = false
     },
@@ -20,11 +19,11 @@ const commentsSlice = createSlice({
       state.error = action.payload
       state.isLoading = false
     },
-    commentsCreate: (state, actions) => {
-      state.entities.push(actions.payload)
+    commetnCreated: (state, action) => {
+      state.entities.push(action.payload)
     },
-    commentsRemove: (state, actions) => {
-      state.entities = state.entities.filter((c) => c._id !== actions.payload)
+    commentRemoved: (state, action) => {
+      state.entities = state.entities.filter((c) => c._id !== action.payload)
     }
   }
 })
@@ -32,48 +31,45 @@ const commentsSlice = createSlice({
 const { reducer: commentsReducer, actions } = commentsSlice
 const {
   commentsRequested,
-  commentsReceived,
+  commentsReceved,
   commentsRequestFiled,
-  commentsCreate,
-  commentsRemove
+  commetnCreated,
+  commentRemoved
 } = actions
 
-const createCommentsRequested = createAction(
-  '/comments/createCommentsRequested'
-)
-const deleteCommentsRequested = createAction(
-  '/comments/deleteCommentsRequested'
-)
+const addCommentRequested = createAction('comments/addCommentRequested')
+const removeCommentRequested = createAction('comments/removeCommentRequested')
 
 export const loadCommentsList = (userId) => async (dispatch) => {
   dispatch(commentsRequested())
   try {
-    const { content } = await commentsService.getComments(userId)
-    dispatch(commentsReceived(content))
+    const { content } = await commentService.getComments(userId)
+    dispatch(commentsReceved(content))
   } catch (error) {
     dispatch(commentsRequestFiled(error.message))
   }
 }
-export const createComments = (payload) => async (dispatch) => {
-  dispatch(createCommentsRequested())
+export const createComment = (payload) => async (dispatch, getState) => {
+  dispatch(addCommentRequested())
   try {
-    const { content } = await commentsService.createComment(payload)
-    dispatch(commentsCreate(content))
+    const { content } = await commentService.createComment(payload)
+    dispatch(commetnCreated(content))
   } catch (error) {
     dispatch(commentsRequestFiled(error.message))
   }
 }
-export const deleteComments = (id) => async (dispatch) => {
-  dispatch(deleteCommentsRequested())
+export const removeComment = (commentId) => async (dispatch) => {
+  dispatch(removeCommentRequested())
   try {
-    const { content } = await commentsService.removeComments(id)
-    if (content === null) {
-      dispatch(commentsRemove(id))
+    const { content } = await commentService.removeComment(commentId)
+    if (!content) {
+      dispatch(commentRemoved(commentId))
     }
   } catch (error) {
     dispatch(commentsRequestFiled(error.message))
   }
 }
+
 export const getComments = () => (state) => state.comments.entities
 export const getCommentsLoadingStatus = () => (state) =>
   state.comments.isLoading

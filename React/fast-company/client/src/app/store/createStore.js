@@ -1,12 +1,13 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import qualitiesReducer from './qualities'
-import professionsReducer from './professions'
-import usersReducer from './users'
 import commentsReducer from './comments'
+import professionsReducer from './professions'
+import qualitiesReducer from './qualities'
+import usersReducer from './users'
+
+const { combineReducers, configureStore } = require('@reduxjs/toolkit')
 
 const rootReducer = combineReducers({
-  professions: professionsReducer,
   qualities: qualitiesReducer,
+  professions: professionsReducer,
   users: usersReducer,
   comments: commentsReducer
 })
